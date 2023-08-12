@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/app.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\""
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,12 @@
   },
   "homepage": "https://github.com/Abdulkbk/satoshial#readme",
   "dependencies": {
+    "@prisma/client": "^5.1.1",
     "config": "^3.3.9",
     "dayjs": "^1.11.9",
     "express": "^4.18.2",
-    "pino": "^8.15.0"
+    "pino": "^8.15.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/config": "^3.3.0",
