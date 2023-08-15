@@ -7,7 +7,6 @@ function createServer() {
 
     app.use(express.json())
 
-    routes(app)
 
     return app
 

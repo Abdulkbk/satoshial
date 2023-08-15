@@ -1,9 +1,10 @@
 import { PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export async function createUser(createUserDto: any) {
-  return await prisma.user.create(createUserDto)
+export async function createUser(createUserDto: Prisma.UserCreateInput) {
+  return await prisma.user.create({ data: createUserDto })
 }
 
 export async function updateUser(id: string, updateUserDto: any) {

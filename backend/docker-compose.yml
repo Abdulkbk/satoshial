@@ -1,0 +1,40 @@
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=satoshial
+      - PGDATA=/data/postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/home/node/data
+    networks:
+      - satoshial
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin_data:/home/node/data/pgadmin
+    ports:
+      - '8080:80'
+    networks:
+      - satoshial
+    restart: unless-stopped
+
+networks:
+  satoshial:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin_data:
+
+
