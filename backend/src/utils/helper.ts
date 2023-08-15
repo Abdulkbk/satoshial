@@ -13,5 +13,5 @@ export async function hash(password: string) {
 
 
 export async function comparePw(password: string, hash: string) {
-
+  return await bcrypt.compare(password, hash)
 }
