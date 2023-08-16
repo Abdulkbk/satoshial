@@ -4,7 +4,7 @@ import { hash, comparePw } from "../utils/helper";
 import logger from "../utils/logger";
 import { signJwt } from "../utils/jwt";
 
-export async function signupUserHAndler(req: Request<{}, {}>, res: Response) {
+export async function signupUserHandler(req: Request<{}, {}>, res: Response) {
   try {
     let { fullname, email, password, username } = req.body
     console.log({ fullname, email, password, username });
@@ -39,7 +39,7 @@ export async function signupUserHAndler(req: Request<{}, {}>, res: Response) {
 }
 
 
-export async function signinUserHAndler(req: Request<{}, {}>, res: Response) {
+export async function signinUserHandler(req: Request<{}, {}>, res: Response) {
 
   try {
     let { email, password } = req.body

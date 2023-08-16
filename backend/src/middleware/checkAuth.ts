@@ -31,6 +31,6 @@ export const bearerTokenMidlleware = async (req: any, res: Response, next: NextF
   console.log(decodedToken);
 
 
-  req.user = decodedToken.user
+  req.user = decodedToken
   next()
 } 
