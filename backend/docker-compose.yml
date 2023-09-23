@@ -10,7 +10,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres:/home/node/data
+      - postgres:/var/lib/postgresql/data
     networks:
       - satoshial
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     volumes:
-      - pgadmin_data:/home/node/data/pgadmin
+      - pgadmin_data:/var/lib/pgadmin
     ports:
       - '8080:80'
     networks:

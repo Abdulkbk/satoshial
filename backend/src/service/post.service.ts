@@ -3,6 +3,14 @@ import { Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+export async function getPost() {
+  return await prisma.post.findMany()
+}
+
+export async function getPostById(id: string) {
+
+  return await prisma.post.findFirst({ where: { id } })
+}
 
 export async function createPost(data: { title: string, content: string, authorId: string }) {
   return await prisma.post.create({ data })
