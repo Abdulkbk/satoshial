@@ -16,11 +16,13 @@ model User {
   name      String
   username  String    @unique
   password  String
+  wallet    Wallet?
   createdAt DateTime? @default(now()) @map("created_at")
   updatedAt DateTime? @default(now()) @map("updated_at")
 
   posts Post[]
   likes Like[]
+  // Wallet Wallet[]
 
   @@map("users")
 }
@@ -49,4 +51,30 @@ model Like {
   updatedAt DateTime? @default(now()) @map("updated_at")
 
   @@map("likes")
+}
+
+model Wallet {
+  id         String    @id @default(cuid())
+  privateKey String    @map("private_key")
+  publicKey  String    @map("public_key")
+  mnemonics  String
+  createdAt  DateTime? @default(now()) @map("created_at")
+  updatedAt  DateTime? @default(now()) @map("updated_at")
+  userId     String    @unique
+  user       User      @relation(fields: [userId], references: [id])
+
+  publicAddress PublicAddress[]
+
+  @@map("wallet")
+}
+
+model PublicAddress {
+  id        String    @id @default(cuid())
+  walletId  String    @map("wallet_id")
+  wallet    Wallet    @relation(references: [id], fields: [walletId])
+  address   String    @map("address")
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @default(now()) @map("updated_at")
+
+  @@map("public_address")
 }

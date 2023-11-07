@@ -9,7 +9,7 @@ export async function getPost() {
 
 export async function getPostById(id: string) {
 
-  return await prisma.post.findFirst({ where: { id } })
+  return await prisma.post.findUnique({ where: { id } })
 }
 
 export async function createPost(data: { title: string, content: string, authorId: string }) {

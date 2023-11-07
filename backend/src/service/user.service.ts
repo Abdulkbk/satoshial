@@ -28,3 +28,19 @@ export async function findUserByUsername(username: string) {
   return await prisma.user.findFirst({ where: { username } })
 }
 
+
+export async function createUserWallet(data: { userId: string, privateKey: string, publicKey: string, mnemonics: string }) {
+  try {
+    return await prisma.wallet.create({ data })
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createAddress(data: { address: string, walletId: string }) {
+  try {
+    return await prisma.publicAddress.create({ data })
+  } catch (error) {
+    throw error
+  }
+}

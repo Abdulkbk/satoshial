@@ -1,8 +1,9 @@
 import { Request, Response, } from "express";
-import { findUserByEmail, createUser } from "../service/user.service";
+import { findUserByEmail, createUser, createUserWallet, createAddress } from "../service/user.service";
 import { hash, comparePw } from "../utils/helper";
 import logger from "../utils/logger";
 import { signJwt } from "../utils/jwt";
+import { getAddressFromChildPubKey, getMasterPrivateKey, getNewMnemonic, getXpubFromPrivateKey } from "../service/bitcoin.service";
 
 export async function signupUserHandler(req: Request<{}, {}>, res: Response) {
   try {
@@ -27,6 +28,24 @@ export async function signupUserHandler(req: Request<{}, {}>, res: Response) {
 
     userData.password = await hash(userData.password)
     const createdUser = await createUser(userData)
+
+    const derivePath = "m/0"
+
+    const mnemonics = await getNewMnemonic()
+
+    const privateKey = await getMasterPrivateKey(mnemonics)
+
+    const publicKey = getXpubFromPrivateKey(privateKey, derivePath)
+
+    const wallet = await createUserWallet({ userId: createdUser.id, publicKey, privateKey, mnemonics })
+
+    const address = getAddressFromChildPubKey(publicKey)
+
+    if (address.address) {
+      createAddress({ address: address.address, walletId: wallet.id })
+
+    }
+
 
     res.status(201).json({ success: true, message: `User created successfully` })
 
