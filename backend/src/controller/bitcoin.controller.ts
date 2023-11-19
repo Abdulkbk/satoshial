@@ -1,5 +1,6 @@
 import { Request, Response, } from "express";
-import { createWallet, deriveChildPublicKey, getAddress, getAddressFromChildPubKey, getMasterPrivateKey, getXpubFromPrivateKey } from "../service/bitcoin.service";
+import { createWallet, deriveChildPublicKey, getAddressFromChildPubKey, getMasterPrivateKey, getXpubFromPrivateKey } from "../service/bitcoin.service";
+import { getAddress, getWallet } from "../service/user.service";
 
 export async function generateWalletHandler(req: any, res: Response) {
   try {
@@ -13,9 +14,14 @@ export async function generateWalletHandler(req: any, res: Response) {
   }
 }
 
-export async function generateAddressHandler(req: any, res: Response) {
+export async function getAddressHandler(req: any, res: Response) {
   try {
-    const address = await getAddress(req.body.data)
+    const wallet = await getWallet(req.user.userId)
+    let address
+
+    if (wallet) {
+      address = await getAddress(wallet.id)
+    }
 
 
     return res.status(201).json({ address })
@@ -34,5 +40,15 @@ export async function bitTests(req: any, res: Response) {
   } catch (error) {
     console.log(error);
 
+  }
+}
+
+export async function getBitcoinBalance(req: any, res: Response) {
+  try {
+    console.log(req.user);
+
+  }
+  catch (err) {
+    throw err
   }
 }

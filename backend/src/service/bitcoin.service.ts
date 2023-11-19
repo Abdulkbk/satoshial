@@ -6,7 +6,9 @@ import * as ecc from 'tiny-secp256k1';
 import { Address } from '../types/bitcoin';
 const coinselect = require('coinselect')
 import config from 'config'
-import { Axios } from '../utils/helper';
+import { Axios, sumUtxoValues } from '../utils/helper';
+import { getAddress, getWallet } from './user.service';
+import { getUtxosFromAddress } from '../utils/blockstream-api';
 
 
 const { fromSeed, fromBase58 } = BIP32Factory(ecc);
@@ -112,7 +114,7 @@ export const createTransaction = async (utxos: [], recipientAddress: string, amo
     })
   })
 
-  return psbt
+  return psbt.toHex()
 }
 
 export const createWallet = async () => {
@@ -147,4 +149,29 @@ export const createWallet = async () => {
 
 }
 
-export const getAddress = async (arrg: any) => { }
+export const getUserBalance = async (userId: any) => {
+  try {
+    const wallet = await getWallet(userId)
+
+    let address
+    let utxos
+    let balance
+
+    if (wallet) {
+      address = await getAddress(wallet?.id)
+    }
+
+    if (address) {
+      utxos = await getUtxosFromAddress(address.address)
+    }
+
+    if (utxos) {
+      balance = sumUtxoValues(utxos)
+    }
+
+    return balance
+
+  } catch (error) {
+    throw error
+  }
+}

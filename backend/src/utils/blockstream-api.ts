@@ -9,8 +9,12 @@ export const getTransactionFromAddress = async (address: Address): Promise<Block
   return data
 }
 
-export const getUtxosFromAddress = async (address: Address): Promise<BlockstreamAPIUtxoResponse[]> => {
-  const { data } = await axios.get(`${BASE_URL}/address/${address.address}/utxo`)
+export const getBalanceFromAddress = async (address: Address): Promise<{}> => {
+  return ''
+}
+
+export const getUtxosFromAddress = async (address: string): Promise<BlockstreamAPIUtxoResponse[]> => {
+  const { data }: { data: BlockstreamAPIUtxoResponse[] } = await axios.get(`${BASE_URL}/address/${address}/utxo`)
 
   return data
 }

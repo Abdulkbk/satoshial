@@ -44,3 +44,25 @@ export async function createAddress(data: { address: string, walletId: string })
     throw error
   }
 }
+
+export async function getWallet(userId: string) {
+  try {
+    const wallet = await prisma.wallet.findFirst({ where: { userId } })
+
+    return wallet
+  } catch (error) {
+    throw error
+  }
+}
+
+
+export async function getAddress(walletId: string) {
+  try {
+    const address = await prisma.publicAddress.findFirst({ where: { walletId } })
+
+    return address
+  } catch (error) {
+    throw error
+  }
+}
+

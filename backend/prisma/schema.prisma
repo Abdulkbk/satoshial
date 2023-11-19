@@ -63,14 +63,14 @@ model Wallet {
   userId     String    @unique
   user       User      @relation(fields: [userId], references: [id])
 
-  publicAddress PublicAddress[]
+  publicAddress PublicAddress?
 
   @@map("wallet")
 }
 
 model PublicAddress {
   id        String    @id @default(cuid())
-  walletId  String    @map("wallet_id")
+  walletId  String    @unique @map("wallet_id")
   wallet    Wallet    @relation(references: [id], fields: [walletId])
   address   String    @map("address")
   createdAt DateTime? @default(now()) @map("created_at")

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
 import config from 'config'
+import { BlockstreamAPIUtxoResponse } from '../types/bitcoin'
 
 const BASE_URL = config.get<number>("bitcoin_url")
 
@@ -62,4 +63,13 @@ export async function hash(password: string) {
 export async function comparePw(password: string, hash: string) {
   return await bcrypt.compare(password, hash)
 }
+
+export function satoshiToBitcoin(satoshi: number): number {
+  return satoshi / 100000000;
+}
+
+export function sumUtxoValues(utxos: BlockstreamAPIUtxoResponse[]): number {
+  return utxos.reduce((sum, utxo) => sum + utxo.value, 0);
+}
+
 
