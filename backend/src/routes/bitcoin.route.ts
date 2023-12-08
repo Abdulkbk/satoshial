@@ -1,10 +1,15 @@
 import express from 'express'
 import { bearerTokenMidlleware } from '../middleware/checkAuth'
-import { getAddressHandler, generateWalletHandler, bitTests } from '../controller/bitcoin.controller'
+import { broadcastTransactionHandler, createTransactionHandler, generateAddressHandler, generateMasterKeysHandler, generateMnemonicHandler, getAddressHandler, getUtxosHandler } from '../controller/bitcoin.controller'
 
 const router = express.Router()
 
-router.post('/address', bearerTokenMidlleware, getAddressHandler).get('/wallet', generateWalletHandler).post('/generate').get('/test', bearerTokenMidlleware, bitTests)
+router.get('/get-address', bearerTokenMidlleware, generateAddressHandler)
+  .get('/mnemonics', bearerTokenMidlleware, generateMnemonicHandler)
+  .post('/master-keys', bearerTokenMidlleware, generateMasterKeysHandler)
+  .get('/utxos', bearerTokenMidlleware, getUtxosHandler)
+  .post('/create-transaction', bearerTokenMidlleware, createTransactionHandler)
+  .post('/broadcast-transaction', bearerTokenMidlleware, broadcastTransactionHandler)
 
 export default router
 

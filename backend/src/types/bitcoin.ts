@@ -64,3 +64,17 @@ export interface BlockstreamAPIUtxoResponse {
 export interface BlockstreamApiFeeEstimatesResponse {
   [targetBlocks: string]: number;
 }
+
+export interface DecoratedUtxo extends BlockstreamAPIUtxoResponse {
+  address: Address;
+  bip32Derivation: {
+    masterFingerprint: Buffer;
+    pubkey: Buffer;
+    path: string;
+  }[];
+}
+
+export interface SignedTransactionData {
+  txHex: string;
+  txId: string;
+}

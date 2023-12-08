@@ -13,11 +13,19 @@ export const getBalanceFromAddress = async (address: Address): Promise<{}> => {
   return ''
 }
 
-export const getUtxosFromAddress = async (address: string): Promise<BlockstreamAPIUtxoResponse[]> => {
-  const { data }: { data: BlockstreamAPIUtxoResponse[] } = await axios.get(`${BASE_URL}/address/${address}/utxo`)
+export const getUtxosFromAddress = async (address: Address): Promise<BlockstreamAPIUtxoResponse[]> => {
+  const { data }: { data: BlockstreamAPIUtxoResponse[] } = await axios.get(`${BASE_URL}/address/${address.address}/utxo`)
 
   return data
 }
+
+export const getTransactionHex = async (txid: string): Promise<string> => {
+  const { data } = await axios.get(
+    `${BASE_URL}/tx/${txid}/hex`
+  );
+
+  return data;
+};
 
 export const getFeeRates = async () => {
   throw new Error('Not implemented yet')
